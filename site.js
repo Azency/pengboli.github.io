@@ -22,6 +22,9 @@
     document.querySelectorAll('[data-label-en]').forEach(element => {
       element.setAttribute('aria-label', element.getAttribute(`data-label-${language}`));
     });
+    document.querySelectorAll('[data-href-en][data-href-zh]').forEach(element => {
+      element.setAttribute('href', element.getAttribute(`data-href-${language}`));
+    });
     document.querySelector('.name-secondary').lang = language === 'zh' ? 'en' : 'zh-CN';
     languageName.textContent = language === 'en' ? '中文' : 'English';
     toggle.setAttribute('aria-label', language === 'en' ? '切换为中文' : 'Switch to English');

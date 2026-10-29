@@ -35,10 +35,14 @@ python3 -m http.server 8000 --bind 127.0.0.1
 | `site.js` | 语言切换、偏好保存、导航高亮 |
 | `assets/pengbo-li.jpeg` | 主页照片，来自指定的 `images/IMG_1301.jpeg` |
 | `assets/pengbo-li-cv-zh.pdf` | 中文 LLM / RL Infra 简历 |
+| `assets/pengbo-li-cv-en.pdf` | 英文 CV，英文主页的默认简历链接 |
+| `scripts/build_cv.py` | 英文 CV 的可编辑内容与 PDF 生成脚本（需要 ReportLab） |
 | `assets/favicon.svg` | 浏览器标签页图标 |
 | `.github/workflows/deploy.yml` | GitHub Pages 自动发布流程 |
 
 更新双语文本时，同时修改元素正文（无 JavaScript 时的英文回退）、`data-en` 与 `data-zh`。论文原始标题、作者名、技术术语保留英文。添加内容后检查桌面、手机及两种语言的显示效果。
+
+CV 按钮会随页面语言切换 PDF：英文对应 `pengbo-li-cv-en.pdf`，中文对应 `pengbo-li-cv-zh.pdf`；关闭 JavaScript 时默认打开英文 CV。更新英文 CV 后运行 `python3 scripts/build_cv.py` 即可重新生成，也可用 `--font-dir /path/to/fonts` 指定包含 LiberationSans 系列 TTF 的字体目录。
 
 ## 内容来源
 
