@@ -37,12 +37,15 @@ python3 -m http.server 8000 --bind 127.0.0.1
 | `assets/pengbo-li-cv-zh.pdf` | 中文 LLM / RL Infra 简历 |
 | `assets/pengbo-li-cv-en.pdf` | 英文 CV，英文主页的默认简历链接 |
 | `scripts/build_cv.py` | 英文 CV 的可编辑内容与 PDF 生成脚本（需要 ReportLab） |
+| `resume-latex/` | 中文简历 LaTeX 源码、模板、字体和编译说明，含完整母版及 LLM / RL Infra 投递版 |
 | `assets/favicon.svg` | 浏览器标签页图标 |
 | `.github/workflows/deploy.yml` | GitHub Pages 自动发布流程 |
 
 更新双语文本时，同时修改元素正文（无 JavaScript 时的英文回退）、`data-en` 与 `data-zh`。论文原始标题、作者名、技术术语保留英文。添加内容后检查桌面、手机及两种语言的显示效果。
 
 CV 按钮会随页面语言切换 PDF：英文对应 `pengbo-li-cv-en.pdf`，中文对应 `pengbo-li-cv-zh.pdf`；关闭 JavaScript 时默认打开英文 CV。更新英文 CV 后运行 `python3 scripts/build_cv.py` 即可重新生成，也可用 `--font-dir /path/to/fonts` 指定包含 LiberationSans 系列 TTF 的字体目录。
+
+中文简历源码位于 [`resume-latex/`](resume-latex/README.md)。安装 XeLaTeX 和 latexmk 后，在该目录运行 `make` 即可生成两个中文版本；更新网站中文 PDF 的步骤见目录内说明。
 
 ## 内容来源
 

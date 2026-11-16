@@ -1,0 +1,91 @@
+% LLM / RL Infra 投递版。完整母版保留于 resume2.tex。
+% 新增项目的起止时间未提供，不以论文发表时间代替项目时间。
+\documentclass{resume}
+\usepackage{zh_CN-Adobefonts_external}
+\usepackage{linespacing_fix}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={李鹏博 - LLM / RL Infra 简历},pdfauthor={Pengbo Li}}
+\setlist[itemize]{parsep=0.3ex}
+
+\begin{document}
+\pagenumbering{gobble}
+\name{李鹏博}
+\otherInfo{手机：(+86) 18108644095}{邮箱：plibt@connect.ust.hk}{}{}
+\centerline{\textbf{LLM / RL Infra：强化学习训练系统、Rollout 调度与性能优化}}
+\vspace{0.12cm}
+
+\section{教育背景}
+\datedsubsection{\textbf{香港科技大学}，计算机系，博士}{2024.09 - 至今}
+研究方向：AI 系统（ML Sys）\quad | \quad 累计绩点（CGA）：3.843 / 4.3
+\datedsubsection{\textbf{华中科技大学}，数学与统计学院，硕士}{2021.09 - 2024.06}
+均分：90.64（Top 10\%）\quad | \quad 硕士生国家奖学金、校三好研究生
+\datedsubsection{\textbf{华中科技大学}，数学与统计学院，学士}{2017.09 - 2021.06}
+均分：85.16 \quad | \quad 优秀毕业生、数学竞赛省级三等奖
+
+\section{实习经历}
+\datedsubsection{\textbf{腾讯混元（Tencent Hunyuan）}，RL Infra 开发实习}{2026.03 - 至今}
+\begin{itemize}
+  \item \textbf{训练断点续训}：开发 RL 训练异常中断后的恢复能力，完善训练状态的 Checkpoint 保存与恢复，支持从最新检查点尽可能完整地恢复训练现场并继续运行。
+  \item \textbf{训练引擎精度对齐}：开展 RL 专有训练引擎的数值精度对齐，定位并验证训练计算差异，保障引擎迭代后的训练正确性。
+  \item \textbf{前缀复用优化}：参与训练引擎共享前缀复用优化，通过训练时 KV 缓存与梯度累积减少重复计算；相关成果形成第一作者论文 PrefixFlow（ATC 2026 已录用）。
+\end{itemize}
+
+\section{LLM 精选项目}
+\datedsubsection{\textbf{PrefixFlow：LLM RL 训练中的前缀复用系统}}{2025.12 - 至今}
+\textit{ATC 2026 已录用} \quad | \quad 第一作者 \quad | \quad \href{https://arxiv.org/html/2606.01143v4}{论文链接}
+\begin{itemize}
+  \item \textbf{训练调度与梯度复用}：面向长前缀 RAG 与多模态 RL，设计“前缀前向、后缀训练、延迟前缀反向”三阶段调度；跨微批次共享 K/V 并累积其梯度，使每组轨迹仅执行一次前缀前向与反向。
+  \item \textbf{显存与并行适配}：卸载后缀训练期间暂不使用的前缀激活，并在反向前预取；适配 CP、PP、DP 调度与 TP、EP 并行，在稠密模型及启用 Rollout Routing Replay 的 MoE 上保持 BF16 容差内的训练等价性。
+  \item \textbf{效果}：长前缀 RAG 任务上，verl 端到端 RL 训练加速 \textbf{1.90$\times$}、Actor 更新加速 \textbf{6.1$\times$}；受控实验中后缀训练阶段峰值显存最高降低 \textbf{59.1\%}。
+\end{itemize}
+\vspace{0.1cm}
+
+\datedsubsection{\textbf{Canopy：面向 Agent RL 的树感知 Rollout 调度系统}}{}
+\textit{NeurIPS 2026 已录用} \quad | \quad 第二作者 \quad | \quad \href{https://openreview.net/forum?id=FPJ4b4JwEE}{论文链接}
+\begin{itemize}
+  \item \textbf{树感知调度}：基于 verl 与 vLLM，将活跃 Rollout 树作为调度单元，通过兄弟分支协同放置与前缀保留，提高多轮 Agent 任务中的 KV 缓存复用率。
+  \item \textbf{缓存生命周期管理}：设计保留共享前缀的部分抢占机制，在显存压力下回收分支私有后缀；跨实例分流时比较 KV 传输与重计算成本，按成本选择前缀恢复方式。
+  \item \textbf{效果}：长时域多轮 Agent 任务上，Rollout 生成最高加速 \textbf{2.11$\times$}；显存承压任务中共享前缀完全释放事件平均减少 \textbf{51.1\%}，最高减少 \textbf{94.1\%}。
+\end{itemize}
+
+\newpage
+\section{LLM 精选项目（续）}
+\datedsubsection{\textbf{LLM 强化学习的大批量训练与效率扩展}}{}
+\textit{arXiv 预印本，2026} \quad | \quad \href{https://arxiv.org/abs/2608.29296}{论文链接}
+\begin{itemize}
+  \item \textbf{算法与系统协同}：分离样本效率与系统吞吐量，在 GRPO/PPO 中按累计样本数对齐学习曲线，结合 Adam 学习率平方根缩放，分析大批量训练降低达到目标效果所需时间的条件。
+  \item \textbf{效果}：利用生成与训练的计算特性差异，在固定硬件下将生成吞吐最高提升至 \textbf{2.29$\times$}；GRPO 结合批量扩展与学习率重调，达到目标效果的训练时间最高缩短 \textbf{29\%}。
+\end{itemize}
+\vspace{0.1cm}
+
+\datedsubsection{\textbf{Centrifuge：大模型训练中的 Token 过滤与系统协同设计}}{2025.01 - 2025.10}
+\textit{ICLR 2026 已录用} \quad | \quad 第二作者 \quad | \quad \href{https://openreview.net/forum?id=eshXwEnENV}{论文链接}
+\begin{itemize}
+  \item \textbf{算法与算子优化}：在 Attention Backward Kernel 中动态过滤非关键 Token 激活值，构建自动工作流，将不规则 Sparse GEMM 转换为降维 Dense GEMM，以标准算子实现实际加速。
+  \item \textbf{效果}：在 1.1B 至 40B 参数模型上验证，端到端训练时间最高减少 \textbf{34.7\%}，支持一行代码集成现有框架。
+\end{itemize}
+
+\section{其他开发经历}
+\datedsubsection{\textbf{HaaS 算力调度平台}，实验室孵化创业项目}{2025.01 - 2025.06}
+\begin{itemize}
+  \item 基于 Kubernetes 与 Python 封装 K8s/CRD 接口，提供训练任务提交、GPU/CPU/Memory 资源分配与生命周期管理的 RESTful API；通过动态网络映射支持 SSH 直连 Pod 调试。
+\end{itemize}
+\datedsubsection{\textbf{Privasea（AI Security Startup）}，全同态加密后端开发}{2022.12 - 2023.06}
+\begin{itemize}
+  \item 搭建 C/S 隐私推理后端；基于 PALISADE（C++）移植 LightGBM 并优化密文算子，使用 TFHE-rs（Rust）实现人脸识别模型的隐私计算。
+\end{itemize}
+
+\section{论文发表}
+\begin{enumerate}[label={[\arabic*]}, parsep=0.2ex, leftmargin=*]
+  \item \textbf{Pengbo Li}, Feiyuan Zhang, et al. \href{https://arxiv.org/html/2606.01143v4}{PrefixFlow: Training-Time KV Caching for Schedule-Level Prefix Reuse in LLM RL Training}. \textit{ATC 2026, accepted}.
+  \item Feiyuan Zhang, \textbf{Pengbo Li}, et al. \href{https://openreview.net/forum?id=FPJ4b4JwEE}{Canopy: Tree-Aware Rollout Scheduling for Agent Reinforcement Learning}. \textit{NeurIPS 2026, accepted}.
+  \item Ziniu Li, Jinbo Wang, Guanhua Huang, Feiyuan Zhang, \textbf{Pengbo Li}, Alex Chen. \href{https://arxiv.org/abs/2608.29296}{When Do Larger Batches Help Scale LLM Reinforcement Learning?} \textit{arXiv:2608.29296}, 2026.
+  \item Di Chai, \textbf{Pengbo Li}, et al. \href{https://openreview.net/forum?id=eshXwEnENV}{Centrifuge: Unlocking Full Efficiency of Token Filtering in Large Language Model Training}. \textit{ICLR 2026, accepted}.
+  \item Qijing Li, Xinyang Huang, Bowen Liu, \textbf{Pengbo Li}, Junxue Zhang, and Kai Chen. \href{https://dl.acm.org/doi/10.1145/3735358.3735376}{Cache-Aware I/O Rate Control for RDMA}. \textit{APNET '25} (ACM).
+  \item Huifang Huang, Zhuo Jin, \textbf{Pengbo Li}, Fuke Wu, and Hailiang Yang. \href{https://www.sciencedirect.com/science/article/pii/S0167668725001246}{Optimizing portfolios with surrender variable annuities: A deep reinforcement learning approach}. \textit{Insurance: Mathematics and Economics}, 2026.
+  \item \textbf{Pengbo Li} et al. \href{https://doi.org/10.1109/ICNC59488.2023.10462898}{Privacy Preserving Discretized Spiking Neural Network with TFHE}. \textit{ICNC 2023}.
+  \item Huifang Huang, Ting Gao, \textbf{Pengbo Li}, Jin Guo, Peng Zhang, Nan Du, and Jinqiao Duan. Model-based reinforcement learning with non-Gaussian environment dynamics. \textit{Chaos}, 2023.
+\end{enumerate}
+
+\end{document}
